@@ -1,0 +1,17 @@
+/**
+ * Copyright IBM Corp. 2021
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+'use strict';
+
+describe('dds-$COMPONENT_NAME (cdn)', () => {
+  it('should load the default dds-$COMPONENT_NAME example', () => {
+    cy.visit('/$COMPONENT_NAME/cdn.html');
+
+    // Take a snapshot for visual diffing
+    cy.percySnapshot('dds-$COMPONENT_NAME | cdn | default');
+  });
+});

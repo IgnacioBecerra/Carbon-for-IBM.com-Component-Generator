@@ -1,0 +1,17 @@
+/**
+ * @license
+ *
+ * Copyright IBM Corp. 2020, 2021
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import React from 'react';
+import { render } from 'react-dom';
+import DDS$DDS_NAME from '@carbon/ibmdotcom-web-components/es/components-react/$COMPONENT_NAME/$COMPONENT_NAME';
+import './index.css';
+
+const App = () => <DDS$DDS_NAME></DDS$DDS_NAME>;
+
+render(<App />, document.getElementById('root'));

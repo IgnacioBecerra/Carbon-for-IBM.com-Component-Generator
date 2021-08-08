@@ -1,0 +1,33 @@
+/**
+ * @license
+ *
+ * Copyright IBM Corp. 2020, 2021
+ *
+ * This source code is licensed under the Apache-2.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import { html } from 'lit-element';
+import ifNonNull from 'carbon-web-components/es/globals/directives/if-non-null';
+import readme from './README.stories.mdx';
+import '../$COMPONENT_NAME';
+import textNullable from '../../../../.storybook/knob-text-nullable';
+
+export const Default = ({ parameters }) => {
+  const { copy } = parameters?.props?.$DDS_NAME ?? {};
+  return html\`
+    <dds-$COMPONENT_NAME>${copy}</dds-$COMPONENT_NAME>
+  \`;
+};
+
+export default {
+  title: 'Components/$DDS_NAME_SPACE',
+  parameters: {
+    ...readme.parameters,
+    knobs: {
+      $DDS_NAME: () => ({
+        copy: textNullable('Copy', 'Hello world!'),
+      }),
+    },
+  },
+};
