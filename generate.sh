@@ -5,7 +5,7 @@
 COMPONENT_NAME=$1
 
 DDS_NAME=$(echo "$COMPONENT_NAME" | sed -e 's/\(^\|-\)\([a-z]\)/\1\u\2/g')
-DDS_NAME=$(echo "$DDS_NAME" | sed -e 's/\(^\|-\)\([a-z]\)/\1\u\2/g;s/-//g')
+DDS_NAME=$(echo "$DDS_NAME" | sed -e 's/-//g')
 DDS_NAME_SPACE=$(echo "$DDS_NAME" | sed -r -e "s/([^A-Z])([A-Z])/\1 \2/g")
 
 COMPONENT_DIR="src/components/$COMPONENT_NAME"
