@@ -23,11 +23,15 @@ if [ "$3" == "-dev" ]; then
 	rm -r "$E2E_DIR"
 fi
 
-mkdir -p "$STORIES_DIR"
-mkdir -p "$STYLE_DIR"
-mkdir -p "$SANDBOX_DIR/src"
-mkdir -p "$SANDBOX_REACT_DIR/src"
-mkdir -p "$E2E_DIR"
+if [ "$2" == "-wrapper-only" ]; then
+  mkdir -p "$SANDBOX_REACT_DIR/src"
+  else
+    mkdir -p "$STORIES_DIR"
+    mkdir -p "$STYLE_DIR"
+    mkdir -p "$SANDBOX_DIR/src"
+    mkdir -p "$SANDBOX_REACT_DIR/src"
+    mkdir -p "$E2E_DIR"
+fi
 
 
 function generate_file() {
@@ -65,7 +69,7 @@ function generate_sandbox() {
 }
 
 function generate_react_wrapper() {
-	generate_file "stories-react" "$STORIES_DIR/$COMPONENT_NAME.stories.reac.tsx"
+	generate_file "stories-react" "$STORIES_DIR/$COMPONENT_NAME.stories.react.tsx"
 	generate_file "readme-react" "$STORIES_DIR/README.stories.react.mdx"
 }
 
@@ -78,13 +82,14 @@ function generate_react_sandbox() {
 	generate_file "sandbox-react-index-js" "$SANDBOX_REACT_DIR/src/index.js"
 	generate_file "sandbox-react-index-css" "$SANDBOX_REACT_DIR/src/index.css"
 }
+if [ "$2" != '-wrapper-only' ]; then
+  generate_component
+  generate_stories
+  generate_e2e
+  generate_sandbox
+fi
 
-generate_component
-generate_stories
-generate_e2e
-generate_sandbox
-
-if [ "$2" == '-wrapper' ]; then
+if [ "$2" == '-wrapper' ] || [ "$2" == '-wrapper-only' ]; then
 	generate_react_wrapper
 	generate_react_sandbox
 fi
