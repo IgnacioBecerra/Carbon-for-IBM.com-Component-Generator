@@ -8,7 +8,7 @@ Usage:
 4. Profit
 
 ## React Wrapper
-If you're also looking to make a React Wrapper, you can add the `-wrapper` flag to the above command.
+If you're also looking to make a React Wrapper, you can add the `-wrapper` flag to the above command to include it in normal generation, or use the `-wrapper-only` flag to *only* generate the wrapper for an existing component.
 
 ## Example
 Let's create a new component called "New Component", and its React wrapper.
@@ -31,3 +31,7 @@ Sandbox Example
 e2e tests
 * `tests/e2e/__tests__/new-component/`
 
+## Troubleshooting
+It's possible that the script might not capitalize the component name properly when running it on MacOS. This is due the way `sed` behaves in MacOS compared to its usual behavior in a Linux environment. 
+
+To fix this, run `brew install gnu-sed` and update the `sed` use in the script to `gsed`. This should allow the component name to be parsed properly.
