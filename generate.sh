@@ -4,12 +4,15 @@
 #define parameters which are passed in.
 COMPONENT_NAME=$1
 
-DDS_NAME=$(echo "$COMPONENT_NAME" | sed -e 's/\(^\|-\)\([a-z]\)/\1\u\2/g')
-DDS_NAME=$(echo "$DDS_NAME" | sed -e 's/-//g')
-DDS_NAME_SPACE=$(echo "$DDS_NAME" | sed -r -e "s/([^A-Z])([A-Z])/\1 \2/g")
+DDS_NAME=$(echo "$COMPONENT_NAME" | gsed -e 's/\(^\|-\)\([a-z]\)/\1\u\2/g')
+DDS_NAME=$(echo "$DDS_NAME" | gsed -e 's/-//g')
+DDS_NAME_SPACE=$(echo "$DDS_NAME" | gsed -r -e "s/([^A-Z])([A-Z])/\1 \2/g")
+DDS_REACT_NAME_SPACE=$(echo "$COMPONENT_NAME" | gsed -e "s/^\(.\)/\U\1/g;s/-/ /g")
 
 COMPONENT_DIR="src/components/$COMPONENT_NAME"
+COMPONENT_REACT_DIR="../react/src/components/$DDS_NAME"
 STORIES_DIR="$COMPONENT_DIR/__stories__"
+STORIES_REACT_DIR="$COMPONENT_REACT_DIR/__stories__"
 STYLE_DIR="../styles/scss/components/$COMPONENT_NAME"
 SANDBOX_DIR="examples/codesandbox/components/$COMPONENT_NAME"
 SANDBOX_REACT_DIR="examples/codesandbox/components-react/$COMPONENT_NAME"
@@ -33,6 +36,9 @@ if [ "$2" == "-wrapper-only" ]; then
     mkdir -p "$E2E_DIR"
 fi
 
+if [ ! -d $COMPONENT_REACT_DIR ]; then
+    mkdir -p "$STORIES_REACT_DIR"
+fi
 
 function generate_file() {
 	eval "cat <<-EOF
@@ -82,6 +88,14 @@ function generate_react_sandbox() {
 	generate_file "sandbox-react-index-js" "$SANDBOX_REACT_DIR/src/index.js"
 	generate_file "sandbox-react-index-css" "$SANDBOX_REACT_DIR/src/index.css"
 }
+
+function generate_react_placeholder(){
+  if [ ! -f "$COMPONENT_REACT_DIR/README.stories.mdx" ] || [ ! -f "$STORIES_REACT_DIR/$DDS_NAME.stories.js" ]; then
+    generate_file "readme-react-placeholder" "$COMPONENT_REACT_DIR/README.stories.mdx"
+    generate_file "stories-react-placeholder" "$STORIES_REACT_DIR/$DDS_NAME.stories.js"
+  fi
+}
+
 if [ "$2" != '-wrapper-only' ]; then
   generate_component
   generate_stories
@@ -93,3 +107,5 @@ if [ "$2" == '-wrapper' ] || [ "$2" == '-wrapper-only' ]; then
 	generate_react_wrapper
 	generate_react_sandbox
 fi
+
+generate_react_placeholder
